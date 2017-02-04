@@ -19,16 +19,34 @@ namespace SteamMover
         private static readonly Regex regexObjectEnd = new Regex("^(?: |\t)*\\}$");
         private static readonly Regex regexVariable = new Regex("^(?: |\t)*\"([^\"]*)\"(?: |\t)*\"([^\"]*)\"$");
 
+        private const string defaultDir = @"C:\Program Files (x86)\Steam\steamapps";
+
         public Form1()
         {
             InitializeComponent();
 
-            foreach (var path in Directory.GetFiles(@"C:\Program Files (x86)\Steam\steamapps\", "*.acf", SearchOption.AllDirectories))
-                ReadConfigObject(File.OpenText(path));
-            foreach (var path in Directory.GetFiles(@"D:\SteamLibrary\steamapps", "*.acf", SearchOption.AllDirectories))
-                ReadConfigObject(File.OpenText(path));
-            foreach (var path in Directory.GetFiles(@"F:\SteamLibrary\steamapps", "*.acf", SearchOption.AllDirectories))
-                ReadConfigObject(File.OpenText(path));
+            var libraries = new List<string> { defaultDir };
+            var libraryConf = (Dictionary<string, object>)ReadConfigObject(File.OpenText(Path.Combine(defaultDir, "libraryfolders.vdf")))["LibraryFolders"];
+            for (var i = 1; libraryConf.ContainsKey(i.ToString()); i++)
+                libraries.Add(Path.Combine((string)libraryConf[i.ToString()], "steamapps"));
+
+            var games = new List<Game>();
+            foreach(var library in libraries)
+                foreach(var appmanifestPath in Directory.GetFiles(library, "appmanifest_*.acf", SearchOption.TopDirectoryOnly))
+                {
+                    var appmanifestConf = (Dictionary<string, object>)ReadConfigObject(File.OpenText(appmanifestPath))["AppState"];
+
+                    games.Add(new Game
+                    {
+                        id = Convert.ToInt32((string)appmanifestConf["appid"]),
+                        name = (string)appmanifestConf["name"],
+                        library = library,
+                        directory = (string)appmanifestConf["installdir"],
+                    });
+                }
+
+            objectListView1.AlwaysGroupByColumn = columnLibrary;
+            objectListView1.SetObjects(games);
         }
 
         private Dictionary<string, object> ReadConfigObject(StreamReader streamReader, bool nestedObject = false)
@@ -63,7 +81,7 @@ namespace SteamMover
                 else if ((match = regexVariable.Match(line)).Success)
                 {
                     var key = match.Groups[1].Value;
-                    var value = match.Groups[2].Value;
+                    var value = match.Groups[2].Value.Replace("\\\\", "\\");
 
                     dictionary.Add(key, value);
                 }
