@@ -25,14 +25,21 @@ namespace SteamMover
         {
             InitializeComponent();
 
+            objectListView1.AlwaysGroupByColumn = columnLibrary;
+
+            Refresh();
+        }
+
+        void Refresh()
+        {
             var libraries = new List<string> { defaultDir };
             var libraryConf = (Dictionary<string, object>)ReadConfigObject(File.OpenText(Path.Combine(defaultDir, "libraryfolders.vdf")))["LibraryFolders"];
             for (var i = 1; libraryConf.ContainsKey(i.ToString()); i++)
                 libraries.Add(Path.Combine((string)libraryConf[i.ToString()], "steamapps"));
 
             var games = new List<Game>();
-            foreach(var library in libraries)
-                foreach(var appmanifestPath in Directory.GetFiles(library, "appmanifest_*.acf", SearchOption.TopDirectoryOnly))
+            foreach (var library in libraries)
+                foreach (var appmanifestPath in Directory.GetFiles(library, "appmanifest_*.acf", SearchOption.TopDirectoryOnly))
                 {
                     var appmanifestConf = (Dictionary<string, object>)ReadConfigObject(File.OpenText(appmanifestPath))["AppState"];
 
@@ -45,8 +52,7 @@ namespace SteamMover
                     });
                 }
 
-            objectListView1.AlwaysGroupByColumn = columnLibrary;
-            objectListView1.SetObjects(games);
+            objectListView1.SetObjects(games.OrderBy(o => o.name));
         }
 
         private Dictionary<string, object> ReadConfigObject(StreamReader streamReader, bool nestedObject = false)
@@ -97,6 +103,27 @@ namespace SteamMover
             }
 
             return dictionary;
+        }
+
+        private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            buttonMove.Enabled = true;
+            buttonDelete.Enabled = true;
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            Refresh();
+        }
+
+        private void buttonMove_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
