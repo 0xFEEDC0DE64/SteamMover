@@ -1,0 +1,9 @@
+[submodule "ListViewPrinter"]
+	path = ListViewPrinter
+	url = https://github.com/0xFEEDC0DE64/ListViewPrinter.git
+[submodule "ObjectListView"]
+	path = ObjectListView
+	url = https://github.com/0xFEEDC0DE64/ObjectListView.git
+[submodule "SparkleLibrary"]
+	path = SparkleLibrary
+	url = https://github.com/0xFEEDC0DE64/SparkleLibrary.git
