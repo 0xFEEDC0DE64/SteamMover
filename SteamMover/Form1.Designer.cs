@@ -31,12 +31,11 @@
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
             this.columnId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.columnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.columnDirectory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.columnLibrary = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonRefresh = new System.Windows.Forms.Button();
-            this.buttonMove = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
+            this.buttonMove = new System.Windows.Forms.Button();
+            this.buttonRefresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -45,12 +44,10 @@
             // 
             this.objectListView1.AllColumns.Add(this.columnId);
             this.objectListView1.AllColumns.Add(this.columnName);
-            this.objectListView1.AllColumns.Add(this.columnDirectory);
             this.objectListView1.AllColumns.Add(this.columnLibrary);
             this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnId,
-            this.columnName,
-            this.columnDirectory});
+            this.columnName});
             this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView1.Location = new System.Drawing.Point(0, 52);
             this.objectListView1.Name = "objectListView1";
@@ -71,15 +68,10 @@
             this.columnName.AspectName = "name";
             this.columnName.Text = "Name";
             // 
-            // columnDirectory
-            // 
-            this.columnDirectory.AspectName = "directory";
-            this.columnDirectory.Text = "Directory";
-            // 
             // columnLibrary
             // 
             this.columnLibrary.AspectName = "library";
-            this.columnLibrary.DisplayIndex = 3;
+            this.columnLibrary.DisplayIndex = 2;
             this.columnLibrary.IsVisible = false;
             this.columnLibrary.Text = "Library";
             // 
@@ -94,6 +86,28 @@
             this.panel1.Size = new System.Drawing.Size(968, 52);
             this.panel1.TabIndex = 1;
             // 
+            // buttonDelete
+            // 
+            this.buttonDelete.Enabled = false;
+            this.buttonDelete.Location = new System.Drawing.Point(386, 3);
+            this.buttonDelete.Name = "buttonDelete";
+            this.buttonDelete.Size = new System.Drawing.Size(181, 43);
+            this.buttonDelete.TabIndex = 2;
+            this.buttonDelete.Text = "Delete game(s)";
+            this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+            // 
+            // buttonMove
+            // 
+            this.buttonMove.Enabled = false;
+            this.buttonMove.Location = new System.Drawing.Point(199, 3);
+            this.buttonMove.Name = "buttonMove";
+            this.buttonMove.Size = new System.Drawing.Size(181, 43);
+            this.buttonMove.TabIndex = 1;
+            this.buttonMove.Text = "Move game(s)";
+            this.buttonMove.UseVisualStyleBackColor = true;
+            this.buttonMove.Click += new System.EventHandler(this.buttonMove_Click);
+            // 
             // buttonRefresh
             // 
             this.buttonRefresh.Location = new System.Drawing.Point(12, 3);
@@ -103,28 +117,6 @@
             this.buttonRefresh.Text = "Refresh list";
             this.buttonRefresh.UseVisualStyleBackColor = true;
             this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
-            // 
-            // buttonMove
-            // 
-            this.buttonMove.Enabled = false;
-            this.buttonMove.Location = new System.Drawing.Point(199, 3);
-            this.buttonMove.Name = "buttonMove";
-            this.buttonMove.Size = new System.Drawing.Size(181, 43);
-            this.buttonMove.TabIndex = 1;
-            this.buttonMove.Text = "Move game";
-            this.buttonMove.UseVisualStyleBackColor = true;
-            this.buttonMove.Click += new System.EventHandler(this.buttonMove_Click);
-            // 
-            // buttonDelete
-            // 
-            this.buttonDelete.Enabled = false;
-            this.buttonDelete.Location = new System.Drawing.Point(386, 3);
-            this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(181, 43);
-            this.buttonDelete.TabIndex = 2;
-            this.buttonDelete.Text = "Delete game";
-            this.buttonDelete.UseVisualStyleBackColor = true;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
             // Form1
             // 
@@ -146,7 +138,6 @@
         private BrightIdeasSoftware.ObjectListView objectListView1;
         private BrightIdeasSoftware.OLVColumn columnId;
         private BrightIdeasSoftware.OLVColumn columnName;
-        private BrightIdeasSoftware.OLVColumn columnDirectory;
         private BrightIdeasSoftware.OLVColumn columnLibrary;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonDelete;

@@ -27,10 +27,10 @@ namespace SteamMover
 
             objectListView1.AlwaysGroupByColumn = columnLibrary;
 
-            Refresh();
+            Reload();
         }
 
-        void Refresh()
+        void Reload()
         {
             var libraries = new List<string> { defaultDir };
             var libraryConf = (Dictionary<string, object>)ReadConfigObject(File.OpenText(Path.Combine(defaultDir, "libraryfolders.vdf")))["LibraryFolders"];
@@ -52,7 +52,8 @@ namespace SteamMover
                     });
                 }
 
-            objectListView1.SetObjects(games.OrderBy(o => o.name));
+            objectListView1.SetObjects(games);
+            objectListView1.AutoResizeColumns();
         }
 
         private Dictionary<string, object> ReadConfigObject(StreamReader streamReader, bool nestedObject = false)
@@ -87,7 +88,7 @@ namespace SteamMover
                 else if ((match = regexVariable.Match(line)).Success)
                 {
                     var key = match.Groups[1].Value;
-                    var value = match.Groups[2].Value.Replace("\\\\", "\\");
+                    var value = match.Groups[2].Value.Replace("\\\\", "\\"); //TODO: improve string parsing to allow \"
 
                     dictionary.Add(key, value);
                 }
@@ -107,13 +108,12 @@ namespace SteamMover
 
         private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            buttonMove.Enabled = true;
-            buttonDelete.Enabled = true;
+            buttonMove.Enabled = buttonDelete.Enabled = objectListView1.SelectedIndices.Count > 0;
         }
 
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
-            Refresh();
+            Reload();
         }
 
         private void buttonMove_Click(object sender, EventArgs e)
